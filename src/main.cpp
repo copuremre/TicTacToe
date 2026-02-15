@@ -2,13 +2,23 @@
 #include <iostream>
 
 int main() {
-	char answer;
-	do {
-		Game game;
-        game.runGameLoop();
+	Game game;
+
+	while (true) {
+		game.runGameLoop();
+
 		std::cout << "Restart: R  Quit: Q  -> ";
-		std::cin >> answer;	
-	} while (answer == 'r' || answer == 'R');
+		char answer;
+		std::cin >> answer;
+
+		if (answer == 'r' || answer == 'R') {
+			game.reset();
+			continue;
+		}
+		else if (answer == 'q' || answer == 'Q') {
+			break;
+		}
+	};
 
 	return 0;
 }

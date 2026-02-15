@@ -10,34 +10,32 @@ Game::Game()
 {}
 
 
-Game::Game(int length)
-	: board(length)
-{}
-
-
-std::string Game::requestMove() { 
+std::string Game::requestMove() const { 
 	int maxIndex = board.getLength() * board.getLength();
 	std::cout << std::format("Please enter a cell number in range 1-{} -> ", maxIndex);
 
-	std::string move;
-	std::cin >> move;
-	return move;
+	std::string moveStr;
+	std::cin >> moveStr;
+	return moveStr;
 }
 
-std::pair<int, int> Game::decodeMove(const std::string& move) {
+
+std::pair<int, int> Game::decodeMove(const std::string& move) const {
+	//Parse user move and ensure it only contains digits
 	size_t pos;
 	int inputNum = std::stoi(move, &pos);
 	if (pos != move.length()) {
 		throw std::invalid_argument("non-digit char");
 	}
 
-	int maxIndex = board.getLength() * board.getLength();
-	if (inputNum < 1 || inputNum > maxIndex) {
+	//Ensure the number is in the board range
+	int maxInputNum = board.getLength() * board.getLength();
+	if (inputNum < 1 || inputNum > maxInputNum) {
 		throw std::out_of_range("number not in board range");
 	}
-	
-	int cellNum = inputNum - 1;
 
+	//Convert from 1-indexed user input to 0-indexed array position
+	int cellNum = inputNum - 1;
 	int row = cellNum / board.getLength();
 	int col = cellNum % board.getLength();
 
@@ -45,17 +43,18 @@ std::pair<int, int> Game::decodeMove(const std::string& move) {
 }
 
 
-void Game::makeMove(std::pair<int, int> pos) { 
-	char letter = (board.getMoveCount() % 2 == 0) ? 'X' : 'O';
-	board.setCell(pos.first, pos.second, letter);
+void Game::makeMove(std::pair<int, int> cell) { 
+	char mark = (board.getMoveCount() % 2 == 0) ? 'X' : 'O';
+	board.setCell(cell.first, cell.second, mark);
 }
 
 void Game::runGameLoop() {
 	printBoard();
+
 	while (!isGameOver()) {
 		try {
-			std::string move = requestMove();
-			std::pair<int, int> pos = decodeMove(move);
+			std::string moveStr = requestMove();
+			std::pair<int, int> pos = decodeMove(moveStr);
 			makeMove(pos);
 			printBoard();
 		}
@@ -76,17 +75,17 @@ void Game::runGameLoop() {
 }
 
 
-bool Game::isGameOver() {
+bool Game::isGameOver() const {
 	return board.isGameOver();
 }
 
 
-void Game::printBoard() {
+void Game::printBoard() const {
 	board.print();
 }
 
 
-void Game::printGameOver() {
+void Game::printGameOver() const {
 	std::cout << "GAME OVER" << std::endl;
 	if (board.isFull()) {
 		std::cout << "Draw!" << std::endl;	
@@ -95,4 +94,8 @@ void Game::printGameOver() {
 		std::cout << std::format("Winner: {}!", (board.getMoveCount() % 2 == 0) ? 'O' : 'X') << std::endl;
 		std::cout << std::format("Turns: {}", board.getMoveCount()) << std::endl;
 	}
+}
+
+void Game::reset() {
+	board.reset();
 }

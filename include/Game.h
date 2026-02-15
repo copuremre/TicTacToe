@@ -8,19 +8,19 @@
 class Game {
 	public:
 		Game();
-		Game(int length);
-
-		std::string requestMove();
-		std::pair<int, int> decodeMove(const std::string& move);
-		void makeMove(std::pair<int, int> pos);
 
 		void runGameLoop();
 
-		bool isGameOver();
-		void printBoard();
-		void printGameOver();
+		bool isGameOver() const;
+		void printBoard() const;
+		void printGameOver() const;
+		void reset();
 	private:
 		Board board;
+
+		std::string requestMove() const;
+		std::pair<int, int> decodeMove(const std::string& move) const;
+		void makeMove(std::pair<int, int> cell);
 };
 
 #endif
