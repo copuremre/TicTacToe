@@ -16,8 +16,8 @@ Game::Game(int length)
 
 
 std::string Game::requestMove() { 
-	int maxIndex = board.getLength() * board.getLength() - 1;
-	std::cout << std::format("Please enter a cell number in range 0-{} -> ", maxIndex);
+	int maxIndex = board.getLength() * board.getLength();
+	std::cout << std::format("Please enter a cell number in range 1-{} -> ", maxIndex);
 
 	std::string move;
 	std::cin >> move;
@@ -26,15 +26,17 @@ std::string Game::requestMove() {
 
 std::pair<int, int> Game::decodeMove(const std::string& move) {
 	size_t pos;
-	int cellNum = std::stoi(move, &pos);
+	int inputNum = std::stoi(move, &pos);
 	if (pos != move.length()) {
 		throw std::invalid_argument("non-digit char");
 	}
 
-	int maxIndex = board.getLength() * board.getLength() - 1;
-	if (cellNum < 0 || cellNum > maxIndex) {
+	int maxIndex = board.getLength() * board.getLength();
+	if (inputNum < 1 || inputNum > maxIndex) {
 		throw std::out_of_range("number not in board range");
 	}
+	
+	int cellNum = inputNum - 1;
 
 	int row = cellNum / board.getLength();
 	int col = cellNum % board.getLength();
@@ -57,19 +59,16 @@ void Game::runGameLoop() {
 			makeMove(pos);
 			printBoard();
 		}
-		catch (const std::out_of_range& e) {
+		catch (const std::out_of_range&) {
 			std::cout << "Cell number out of bounds." << std::endl;
-			std::cout << "what(): " << e.what() << std::endl;
 			continue;
 		}
-		catch (const std::invalid_argument& e) {
+		catch (const std::invalid_argument&) {
 			std::cout << "Incorrect input format." << std::endl;
-			std::cout << "what(): " << e.what() << std::endl;
 			continue;
 		}
-		catch (const std::logic_error&e) {
+		catch (const std::logic_error&) {
 			std::cout << "Cell already occupied." << std::endl;
-			std::cout << "what(): " << e.what() << std::endl;
 			continue;
 		}
 	}

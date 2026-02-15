@@ -113,23 +113,23 @@ bool Board::isGameOver() {
 void Board::print() {
 	std::string sprite_top = "┌";
 	for (int i = 0; i < length - 1; i++) {
-		sprite_top.append("-┬");
+		sprite_top.append("─┬");
 	}
-	sprite_top.append("-┐\n");
+	sprite_top.append("─┐\n");
 
 
 	std::string sprite_bottom = "└";
 	for (int i = 0; i < length - 1; i++) {
-		sprite_bottom.append("-┴");
+		sprite_bottom.append("─┴");
 	}
-	sprite_bottom.append("-┘");
+	sprite_bottom.append("─┘");
 
 
 	std::string sprite_horiz_splitter = "├";
 	for (int i = 0; i < length - 1; i++) {
-		sprite_horiz_splitter.append("-┼");
+		sprite_horiz_splitter.append("─┼");
 	}
-	sprite_horiz_splitter.append("-┤\n");
+	sprite_horiz_splitter.append("─┤\n");
 
 
 	std::string sprite = sprite_top;
@@ -137,7 +137,7 @@ void Board::print() {
 		sprite.append("│");
 		for (int col = 0; col < length; col++) {
 			sprite += grid[row][col];
-			sprite.append("|");
+			sprite.append("│");
 		}
 		sprite.append("\n");
 		if (row < length - 1) {
