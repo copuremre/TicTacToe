@@ -6,22 +6,24 @@
 class Board {
 	public:
 		Board();
+		Board(int length);
 
-		int getLength() const;
-		int getMoveCount() const;
+		int getLength();
+		int getMoveCount();
 
-		char getCell(int row, int col) const;
-		bool isCellEmpty(int row, int col) const;
-		void setCell(int row, int col, char mark);
+		char getCell(int row, int col);
+		bool isCellEmpty(int row, int col);
+		void setCell(int row, int col, char letter);
 
-		bool isFull() const;
-		bool isGameOver() const;
-		void print() const;
-		void reset();
+		bool isFull();
+		bool isGameOver();
+		void print();
 	private:
 		std::vector<std::vector<char>> grid;
-		const int length;
+		int length;
 		int moveCount;
 };
+
+
 
 #endif

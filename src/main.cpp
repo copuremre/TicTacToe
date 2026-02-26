@@ -1,24 +1,22 @@
 #include "Game.h"
 #include <iostream>
 
+#ifdef _WIN32
+	#include <windows.h>
+#endif
+
 int main() {
-	Game game;
+	#ifdef _WIN32
+		SetConsoleOutputCP(CP_UTF8);
+	#endif
 
-	while (true) {
-		game.runGameLoop();
-
+	char answer;
+	do {
+		Game game;
+        game.runGameLoop();
 		std::cout << "Restart: R  Quit: Q  -> ";
-		char answer;
-		std::cin >> answer;
-
-		if (answer == 'r' || answer == 'R') {
-			game.reset();
-			continue;
-		}
-		else if (answer == 'q' || answer == 'Q') {
-			break;
-		}
-	};
+		std::cin >> answer;	
+	} while (answer == 'r' || answer == 'R');
 
 	return 0;
 }

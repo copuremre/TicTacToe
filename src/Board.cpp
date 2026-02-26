@@ -3,43 +3,48 @@
 #include <string>
 
 Board::Board()
-	:grid(3,std::vector<char>(3,' ')), length(3), moveCount(0)
+	: grid(3,std::vector<char>(3,' ')), length(3), moveCount(0)
 {}
 
 
-int Board::getLength() const {
+Board::Board(int length)
+	: grid(length,std::vector<char>(length,' ')), length(length), moveCount(0)
+{}
+
+
+int Board::getLength() {
 	return length;
 }
 
 
-int Board::getMoveCount() const {
+int Board::getMoveCount() {
 	return moveCount;
 }
 
 
-char Board::getCell(int row, int col) const {
+char Board::getCell(int row, int col) {
 	return grid.at(row).at(col);
 }
 
 
-bool Board::isCellEmpty(int row, int col) const {
+bool Board::isCellEmpty(int row, int col) {
 	return (grid.at(row).at(col) == ' ');
 }
 
 
-void Board::setCell(int row, int col, char mark) {
+void Board::setCell(int row, int col, char letter) {
 	if (!isCellEmpty(row, col)) {
 		throw std::logic_error("cell occupied");
 	}
-	grid.at(row).at(col) = mark;
+	grid.at(row).at(col) = letter;
 	moveCount++;
 }
 
 
-bool Board::isFull() const {
+bool Board::isFull() {
 	for (int row = 0; row < length; row++) {
 		for (int col = 0; col < length; col++) {
-			if (isCellEmpty(row, col)) {
+			if (grid[row][col] == ' ') {
 				return false;
 			}
 		}
@@ -48,13 +53,13 @@ bool Board::isFull() const {
 }
 
 
-bool Board::isGameOver() const {
+bool Board::isGameOver() {
 	bool isMatch;
 
 	for (int row = 0; row < length; row++) {
 		isMatch = true;
 		for (int col = 0; col < length - 1; col++) {
-			if (isCellEmpty(row, col) || getCell(row, col) != getCell(row, col + 1)) {
+			if (getCell(row, col) == ' ' || getCell(row, col) != getCell(row, col + 1)) {
 				isMatch = false;
 				break;
 			}
@@ -67,7 +72,7 @@ bool Board::isGameOver() const {
 	for (int col = 0; col < length; col++) {
 		isMatch = true;
 		for (int row = 0; row < length - 1; row++) {
-			if (isCellEmpty(row, col) || getCell(row, col) != getCell(row + 1, col)) {
+			if (getCell(row, col) == ' ' || getCell(row, col) != getCell(row + 1, col)) {
 				isMatch = false;
 				break;
 			}
@@ -79,7 +84,7 @@ bool Board::isGameOver() const {
 
 	isMatch = true;
 	for (int i = 0; i < length - 1; i++) {
-		if (isCellEmpty(i, i) || getCell(i, i) != getCell(i + 1, i + 1)) {
+		if (getCell(i, i) == ' ' || getCell(i, i) != getCell(i + 1, i + 1)) {
 			isMatch = false;
 			break;
 		}
@@ -91,7 +96,7 @@ bool Board::isGameOver() const {
 
 	isMatch = true;
 	for (int i = 0; i < length - 1; i++) {
-		if (isCellEmpty(i, length - 1 - i) || getCell(i, length - 1 - i) != getCell(i + 1, length - 2 - i)) {
+		if (getCell(i, length - 1 - i) == ' ' || getCell(i, length - 1 - i) != getCell(i + 1, length - 2 - i)) {
 			isMatch = false;
 			break;
 		}
@@ -105,7 +110,7 @@ bool Board::isGameOver() const {
 }
 
 
-void Board::print() const {
+void Board::print() {
 	std::string sprite_top = "┌";
 	for (int i = 0; i < length - 1; i++) {
 		sprite_top.append("─┬");
@@ -131,7 +136,7 @@ void Board::print() const {
 	for (int row = 0; row < length; row++) {
 		sprite.append("│");
 		for (int col = 0; col < length; col++) {
-			sprite += grid.at(row).at(col);
+			sprite += grid[row][col];
 			sprite.append("│");
 		}
 		sprite.append("\n");
@@ -142,10 +147,4 @@ void Board::print() const {
 	sprite.append(sprite_bottom);
 
 	std::cout << sprite << std::endl;
-}
-
-
-void Board::reset() {
-	grid = std::vector<std::vector<char>>(3,std::vector<char>(3,' '));
-	moveCount = 0;
 }

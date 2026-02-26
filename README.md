@@ -16,12 +16,14 @@ This project is a Tic-Tac-Toe game, implemented in C++20 with a class-based modu
 
 ## Requirements
 
-- C++20 compatible compiler (GCC/G++ 10+, Clang 12+)
-- GNU Make
-- **Note:** MSVC is currently not supported. Use WSL or MinGW on Windows.
+- C++20 compatible compiler:
+    - GCC/G++ 10+ 
+    - Clang 12+
+    - Visual Studio 2022 (MSVC 19.3X+)
+- CMake 3.16+
 
 
-## How To Install
+## Build & Run
 
 - Clone the repository:
 ```bash
@@ -33,18 +35,21 @@ git clone "https://github.com/copuremre/TicTacToe.git"
 cd TicTacToe
 ```
 
-- Build the project using make:
+- Build the project using CMake:
 ```bash
-make
+cmake -S . -B build
+cmake --build build
 ```
 
-
-## How To Run
-
-- Run this command after installing the game: 
-```bash
-make run
-```
+- To run the game:
+    - Windows
+    ```bash
+    ./build/bin/TicTacToe.exe
+    ```
+    - Linux/Mac
+    ```bash
+    ./build/bin/TicTacToe
+    ```
 
 
 ## Project Structure
@@ -54,7 +59,7 @@ TicTacToe/
 ├── src/          # Source Files (.cpp)
 ├── include/      # Header Files (.h)
 ├── build/        # Build artifacts (generated)
-├── Makefile
+├── CMakeLists.txt
 └── README.md
 ```
 
