@@ -44,7 +44,7 @@ cmake --build build
 - To run the game:
     - Windows
     ```bash
-    ./build/bin/TicTacToe.exe
+    .\build\bin\TicTacToe.exe
     ```
     - Linux/Mac
     ```bash
